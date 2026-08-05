@@ -26,6 +26,5 @@ def start_jarvis():
         name = input("What is your name?")
         memory["name"] = name 
         save_memory(memory)
-        speak(f"Hello {name}, I am Jarvis")
-        speak("Nice to meet you")
+        speak(f"Hello {name}, I am Jarvis. Nice to meet you")
 start_jarvis()
