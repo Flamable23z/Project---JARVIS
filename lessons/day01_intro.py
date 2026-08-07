@@ -13,7 +13,6 @@ running = True
 hour = datetime.now().hour
 def speak(text):
     engine.say(text)
-    engine.runAndWait()
 def process_command(command):
     ...
 def load_memory():
@@ -40,10 +39,13 @@ def greet_user():
         save_memory(memory)
         if hour < 12:
             speak(f"Good morning {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
+            engine.runAndWait()
         elif hour < 18:
             speak(f"Good afternoon {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
+            engine.runAndWait()
         else:
             speak(f"Good evening {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
+            engine.runAndWait()
 greet_user()
 while running == True:
     askcommand = input("What can I help you with today?").lower()
