@@ -1,36 +1,23 @@
-import os
-import json 
-import pyttsx3
+#remember that you must put engine.runAndWait after a speaking block 
 import time 
 import random 
 from datetime import datetime 
+from memory import load_memory
+from memory import save_memory
+from speech import speak
+memory = load_memory()
 colours = ["blue", "red", "green", "yellow", "orange", "pink", "purple"]
-engine = pyttsx3.init()
-voices = engine.getProperty("voices")
-engine.setProperty('voice', voices[0].id)
-engine.setProperty('rate', 185)
 running = True 
 hour = datetime.now().hour
-def speak(text):
-    engine.say(text)
 def process_command(command):
     ...
-def load_memory():
-    if os.path.exists("memory.json"):
-        with open("memory.json", "r") as file:
-            return json.load(file)  
-    else:
-        return {}
-def save_memory(memory):
-    with open("memory.json", "w") as file:
-       json.dump(memory, file, indent = 4)
-memory = load_memory()
 def greet_user():
     if "name" in memory:
         if hour < 12:
             speak(f"Good morning {memory["name"]}. What can I help you with today?")
         elif hour < 18:
             speak(f"Good afternoon {memory["name"]}. What can I help you with today?")
+            print("Working")
         else:
             speak(f"Good evening {memory["name"]}. What can I help you with today?")
     else:
@@ -39,16 +26,13 @@ def greet_user():
         save_memory(memory)
         if hour < 12:
             speak(f"Good morning {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
-            engine.runAndWait()
         elif hour < 18:
             speak(f"Good afternoon {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
-            engine.runAndWait()
         else:
             speak(f"Good evening {memory["name"]}. It is a pleasure to meet you. What can I help you with today?")
-            engine.runAndWait()
 greet_user()
 while running == True:
-    askcommand = input("What can I help you with today?").lower()
+    askcommand = input("What can i help you with today?").lower()
     if askcommand == "goodbye" or askcommand == "bye":
         running = False
     else:
@@ -71,3 +55,4 @@ while running == True:
             memory["favouritecolour"] = favouritecolour
             save_memory(memory)
             print(f"Now I know your favourite colour is {memory["favouritecolour"]}")
+#remember that you must put engine.runAndWait after a speaking block 
