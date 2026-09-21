@@ -1,0 +1,7 @@
+
+[2026-09-18 13:02] Result: SLEEP IN | Swell: 1.76m (7.85s) | Wind: 0km/h (0°) | Water: 13.3°C
+[2026-09-21 09:06] Result: SLEEP IN | Swell: 1.58m (7.75s) | Wind: 0km/h (0°) | Water: 13.6°C
+[2026-09-21 09:31] Result: SLEEP IN | Swell: 1.58m (7.75s) | Wind: 0km/h (0°) | Water: 13.6°C
+[2026-09-21 09:54] Result: MUIZENBERG GOOD
+  -> Muizenberg: 1.58m (7.75s) | Wind: 0km/h (0°) | Water: 13.6°C
+  -> Llandudno: 2.0m (8.6s) | Wind: 0km/h (0°) | Water: 12.5°C
