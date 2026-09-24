@@ -1,6 +1,7 @@
 import time 
 import random 
 import requests
+import threading
 from datetime import datetime 
 from memory import load_memory, save_memory
 from speech import speak
@@ -38,9 +39,9 @@ def check_single_beach(lat, lon, min_wind, max_wind, is_or_range, beach_name):
         
         # Check offshore wind range
         if is_or_range:
-            is_offshore = (wind_dir >= min_wind or wind_dir <= max_wind) # e.g. Muizenberg NW-NE
+            is_offshore = (wind_dir >= min_wind or wind_dir <= max_wind)
         else:
-            is_offshore = (min_wind <= wind_dir <= max_wind)             # e.g. Llandudno SE
+            is_offshore = (min_wind <= wind_dir <= max_wind)
             
         # Realistic surf conditions check
         is_good = (height >= 0.8 and period >= 7.0 and wind < 22 and is_offshore)
@@ -87,15 +88,29 @@ def check_surf():
     
     # Send iPhone alert if either spot is good
     if muiz_good or llan_good:
-        requests.post(
-            "https://ntfy.sh/muizenberg_surf_benjy",
-            data=msg.encode("utf-8")
-        )
+        try:
+            requests.post(
+                "https://ntfy.sh/muizenberg_surf_benjy",
+                data=msg.encode("utf-8")
+            )
+        except Exception as e:
+            print(f"Could not send ntfy notification: {e}")
 
     # Log entry to history file
     log_entry = f"[{timestamp}] Result: {status}\n  -> {muiz_stats}\n  -> {llan_stats}\n"
     with open("surf_history.txt", "a", encoding="utf-8", errors="replace") as file:
         file.write(log_entry)
+
+# Background worker function (checks surf every 3600 seconds = 1 hour)
+def auto_check_loop():
+    while True:
+        time.sleep(3600)
+        print("\n[Jarvis Auto-Check]: Running background hourly forecast check...")
+        check_surf()
+
+# Start background thread
+surf_thread = threading.Thread(target=auto_check_loop, daemon=True)
+surf_thread.start()
 
 # Greeting setup
 def greet_user():
